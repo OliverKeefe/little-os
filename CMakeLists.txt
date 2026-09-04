@@ -5,4 +5,6 @@ set(CMAKE_C_STANDARD 11)
 
 add_executable(little_os
         kernel/kernel.c
-        main.c)
+        main.c
+        kernel/kernel.c
+        common/common.h)
