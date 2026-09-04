@@ -1,4 +1,4 @@
-#include "kernel.h";
+#include "kernel.h"
 #include "../common/common.h"
 typedef unsigned char uint8_t;
 typedef unsigned int uint32_t;
