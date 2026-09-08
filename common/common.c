@@ -65,7 +65,7 @@ void printf(const char *fmt, ...) {
 }
 
 void *memcpy(void *dst, const void *src, size_t n) {
-    uint8_t *d = (uint_8_t *) dst;
+    uint8_t *d = (uint8_t *) dst;
 
     const uint8_t *s = (const uint8_t *) src;
 
@@ -75,7 +75,7 @@ void *memcpy(void *dst, const void *src, size_t n) {
 }
 
 void *memset(void *buf, char c, size_t n) {
-    uint8_t *p = (uint8_t) buf;
+    uint8_t *p = (uint8_t *) buf;
 
     while (n--)
         *p++ = c;
