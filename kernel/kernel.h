@@ -62,3 +62,28 @@ struct sbiret {
     long error;
     long value;
 };
+
+// Max number of processes.
+#define PROCS_MAX 8
+
+// Unused process control structure.
+#define PROC_UNUSED 0
+
+// Runnable processes.
+#define PROC_RUNNABLE 1
+
+/*
+ process defines a Process Control Block (PCB)
+ which is a process object / entity.
+
+ `pid` - The process ID.
+ `state` - Integer representation of process state.
+ `sp` - Virtual address of stack pointer.
+ `stack` - Kernel stack.
+ */
+struct process {
+    int pid;
+    int state;
+    vaddr_t sp;
+    uint8_t stack[8192];
+};
