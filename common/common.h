@@ -33,6 +33,8 @@ typedef uint32_t vaddr_t;
 // offsetof returns the offset of a member within a struct.
 #define offsetof(type, member) __builtin_offsetof(type, member)
 
+// PAGE_SIZE defines the size of a page, in this case 4KB.
+#define PAGE_SIZE 4096
 
 #define va_list  __builtin_va_list
 #define va_start __builtin_va_start
