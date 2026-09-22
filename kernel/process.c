@@ -40,3 +40,17 @@ __attribute__((naked)) void switch_context(uint32_t *prev_sp, uint32_t *next_sp)
         );
 }
 
+// All process control structures.
+struct process procs[PROCS_MAX];
+
+struct process *create_process(uint32_t pc) {
+    //Find unused process control structure.
+    struct process *proc = NULL;
+
+    for (int i = 0; i < PROCS_MAX; i++) {
+        if (procs[i].state == PROC_UNUSED) {
+            proc = &procs[i];
+            break;
+        }
+    }
+}
