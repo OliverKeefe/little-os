@@ -52,6 +52,7 @@ void printf(const char *fmt, ...) {
                         putchar("0123456789abcdef"[nibble]);
                     }
                 }
+                default: break;
             }
         } else {
             putchar(*fmt);
