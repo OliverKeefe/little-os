@@ -7,14 +7,26 @@ You can read the RISC-V ISA specifications here:
 
 ## Install Dependencies / Dev Tooling
 
-### Ubuntu / Debian
+> [!NOTE]
+> If you're running Ubuntu 26.04+ install `qemu-system-riscv-hwe` instead of `qemu-system-riscv32`.
+> 
+
+### Ubuntu
+```shell
+sudo apt update -y && \
+sudo apt install -y clang llvm lld qemu-system-riscv-hwe curl
+```
+
+### Debian
 
 ```shell
 sudo apt update -y && \
 sudo apt install -y clang llvm lld qemu-system-riscv32 curl
 ```
 
-OpenSBI
+
+
+### Install OpenSBI
 
 ```shell
 curl -LO https://github.com/qemu/qemu/raw/v8.0.4/pc-bios/opensbi-riscv32-generic-fw_dynamic.bin 
