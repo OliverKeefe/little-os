@@ -161,7 +161,7 @@ void proc_b_entry(void) {
     printf("starting process B\n");
     while (true) {
         putchar('B');
-        switch_context(&proc_a->sp, &proc_b->sp);
+        switch_context(&proc_b->sp, &proc_a->sp);
         delay();
     }
 }
