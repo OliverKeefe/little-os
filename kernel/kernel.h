@@ -42,14 +42,14 @@ struct trap_frame {
             unsigned long __tmp;                                  \
             __asm__ __volatile__("csrr %0, " #reg : "=r"(__tmp)); \
             __tmp;                                                \
-        })                                                        \
+        })
 
 // Macro for writing to CSR registers.
-#define WRITE_CSR(reg, value) \
-        do { \
-            uint32_t __tmp = (value); \
-            __asm__ __volatile__("cswr " #reg ", %0" ::"r"(__tmp)); \
-        } while (0) \
+#define WRITE_CSR(reg, value)                                       \
+        do {                                                        \
+            uint32_t __tmp = (value);                               \
+            __asm__ __volatile__("csrw " #reg ", %0" ::"r"(__tmp)); \
+        } while (0)
 
 // PANIC is a helpful macro for handling kernel panics (crashing gracefully).
 #define PANIC(fmt, ...)                                                          \
