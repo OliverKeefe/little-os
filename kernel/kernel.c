@@ -140,8 +140,34 @@ void kernel_entry(void) {
     );
 }
 
+void delay(void) {
+    for (int i =0; i < 30000000; i++)
+        __asm__ __volatile__("nop");
+}
+
+struct process *proc_a;
+struct process *proc_b;
+
+void proc_a_entry(void) {
+    printf("starting process A\n");
+    while (true) {
+        putchar('A');
+        switch_context(&proc_a->sp, &proc_b->sp);
+        delay();
+    }
+}
+
+void proc_b_entry(void) {
+    printf("starting process B\n");
+    while (true) {
+        putchar('B');
+        switch_context(&proc_a->sp, &proc_b->sp);
+        delay();
+    }
+}
+
 void kernel_main(void) {
-    //memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
+    memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
     //const char *s = "\n\nKernel Running...\n";
     //for (int i = 0; s[i] != '\0'; i++) {
     //    putchar(s[i]);
@@ -154,7 +180,12 @@ void kernel_main(void) {
     printf("alloc_pages test: paddr0=%x\n", paddr0);
     printf("alloc_pages test: paddr1=%x\n", paddr1);
 
+    proc_a = create_process((uint32_t) proc_a_entry);
+    proc_b = create_process((uint32_t) proc_b_entry);
+    proc_a_entry();
+
     PANIC("booted!");
+
 
     //for (;;) {
     //    __asm__ __volatile__("wfi");
