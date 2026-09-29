@@ -87,3 +87,7 @@ struct process {
     vaddr_t sp;
     uint8_t stack[8192];
 };
+
+__attribute__((naked)) void switch_context(uint32_t *prev_sp, uint32_t *next_sp);
+
+struct process *create_process(uint32_t pc);
