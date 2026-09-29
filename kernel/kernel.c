@@ -147,6 +147,8 @@ void kernel_main(void) {
     //    putchar(s[i]);
     //}
 
+    WRITE_CSR(stvec, (uint32_t) kernel_entry);
+
     paddr_t paddr0 = alloc_pages(2);
     paddr_t paddr1 = alloc_pages(1);
     printf("alloc_pages test: paddr0=%x\n", paddr0);
