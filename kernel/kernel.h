@@ -52,9 +52,8 @@ struct trap_frame {
         } while (0)
 
 // PANIC is a helpful macro for handling kernel panics (crashing gracefully).
-#define PANIC(fmt, ...)                                                          \
-do {                                                                             \
-   printf("KERNEL PANIC: %s:%d: ", fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__); \
+#define PANIC(fmt, ...) do {                                                     \
+   printf("KERNEL PANIC: %s:%d: " fmt "\n", __FILE__, __LINE__, ##__VA_ARGS__); \
    while (1) {}                                                                  \
 } while (0)                                                                      \
 
