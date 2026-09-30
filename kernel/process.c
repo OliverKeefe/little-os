@@ -46,11 +46,35 @@ struct process procs[PROCS_MAX];
 struct process *create_process(uint32_t pc) {
     //Find unused process control structure.
     struct process *proc = NULL;
+    int i;
 
-    for (int i = 0; i < PROCS_MAX; i++) {
+    for (i = 0; i < PROCS_MAX; i++) {
         if (procs[i].state == PROC_UNUSED) {
             proc = &procs[i];
             break;
         }
     }
+
+    if (!proc) PANIC("no free process slots");
+
+    uint32_t *sp = (uint32_t *) &proc->stack[sizeof(proc->stack)];
+    *--sp = 0; // s11
+    *--sp = 0; // s10
+    *--sp = 0; // s9
+    *--sp = 0; // s8
+    *--sp = 0; // s7
+    *--sp = 0; // s6
+    *--sp = 0; // s5
+    *--sp = 0; // s4
+    *--sp = 0; // s3
+    *--sp = 0; // s2
+    *--sp = 0; // s1
+    *--sp = 0; // s0
+    *--sp = (uint32_t) pc; // ra
+
+    // Init PCB struct fields.
+    proc->pid = i + 1;
+    proc->state = PROC_RUNNABLE;
+    proc->sp = (uint32_t) sp;
+    return proc;
 }
