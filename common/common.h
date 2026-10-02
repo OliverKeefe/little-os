@@ -46,6 +46,25 @@ void *memcpy(void *dst, const void *src, size_t n);
 char *strcpy(char *dst, const char *src);
 int strcmp(const char *s1, const char *s2);
 //long sbi_console_putchar(int char_binary);
+
+/**
+ * kvsnprintf is the kernel specific vsnprintf implementation. It formats a string into a bounded buffer.
+ *
+ * `k` - Denotes the kernel specific scope of this function (not to be confused with libc's `vsnprintf()` function.
+ *
+ * `v` - Accepts a variadic argument list `va_list`.
+ *
+ * `snprintf` - Formats into a bounded buffer.
+ *
+ * @param buffer Pointer to the destination buffer, may be null when buffer_size == 0, allowing function to calculate
+ * the required length without storing anything.
+ * @param buffer_size Total buffer capacity, including the terminating '\0'.
+ * @param fmt The format string.
+ * @param vargs The list of variadic arguments, the caller has already started this list with `va_start()`.
+ * @return int value of the full number of characters that would have been written, excluding terminator.
+ */
+int kvsnprintf(char *buffer, size_t buffer_size, const char *fmt, va_list vargs);
+
 void printf(const char *fmt, ...);
 
 #endif //LITTLE_OS_COMMON_H
