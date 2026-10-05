@@ -66,7 +66,8 @@ __attribute__((naked))
 __attribute__((aligned(4)))
 void kernel_entry(void) {
     __asm__ __volatile__(
-        "csrw sscratch, sp\n"
+        "csrrw sp, sscratch, sp\n" // Retrieve the kernel stack of the running process from sscratch.
+
         "addi sp, sp, -4 * 31\n" // Allocate space for the trap_frame struct
         "sw ra,  4 * 0(sp)\n"
         "sw gp,  4 * 1(sp)\n"
@@ -101,6 +102,9 @@ void kernel_entry(void) {
 
         "csrr a0, sscratch\n"
         "sw a0, 4 * 30(sp)\n"
+
+        "addi a0, sp, 4 * 31\n"
+        "csrw sscratch, a0\n"
 
         "mv a0, sp\n"
         "call handle_trap\n"
@@ -152,8 +156,7 @@ void proc_a_entry(void) {
     printf("starting process A\n");
     while (true) {
         putchar('A');
-        switch_context(&proc_a->sp, &proc_b->sp);
-        delay();
+        yield();
     }
 }
 
@@ -161,10 +164,12 @@ void proc_b_entry(void) {
     printf("starting process B\n");
     while (true) {
         putchar('B');
-        switch_context(&proc_b->sp, &proc_a->sp);
-        delay();
+        yield();
     }
 }
+
+struct process *idle_proc;
+struct process *current_proc;
 
 void kernel_main(void) {
     memset(__bss, 0, (size_t) __bss_end - (size_t) __bss);
@@ -174,17 +179,23 @@ void kernel_main(void) {
     //}
 
     WRITE_CSR(stvec, (uint32_t) kernel_entry);
+    //__asm__ __volatile__("unimp");
 
     paddr_t paddr0 = alloc_pages(2);
     paddr_t paddr1 = alloc_pages(1);
     printf("alloc_pages test: paddr0=%x\n", paddr0);
     printf("alloc_pages test: paddr1=%x\n", paddr1);
 
+    idle_proc = create_process((uint32_t) NULL);
+    idle_proc->pid = 0;
+    current_proc = idle_proc;
+
     proc_a = create_process((uint32_t) proc_a_entry);
     proc_b = create_process((uint32_t) proc_b_entry);
     proc_a_entry();
 
-    PANIC("booted!");
+    yield();
+    PANIC("switched to idle process");
 
 
     //for (;;) {
