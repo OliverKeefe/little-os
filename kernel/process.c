@@ -78,3 +78,30 @@ struct process *create_process(uint32_t pc) {
     proc->sp = (uint32_t) sp;
     return proc;
 }
+
+void yield(void) {
+    // Search for runnable processes.
+    struct process *next = idle_proc;
+    for (int i = 0; i < PROCS_MAX; i++) {
+        struct process *proc = &procs[(current_proc->pid + i) % PROCS_MAX];
+        if (proc->state == PROC_RUNNABLE && proc->pid > 0) {
+            next = proc;
+            break;
+        }
+    }
+
+    // If there's no other process than current, continue running current proc.
+    if (next == current_proc)
+        return;
+
+    __asm__ __volatile__(
+        "csrw sscratch, %[sscratch]\n"
+        :
+        : [sscratch] "r" ((uint32_t) &next->stack[sizeof(next->stack)])
+    );
+
+    // Switch context
+    struct process *prev = current_proc;
+    current_proc = next;
+    switch_context(&prev->sp, &next->sp);
+}
