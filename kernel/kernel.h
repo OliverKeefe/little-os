@@ -90,3 +90,7 @@ struct process {
 __attribute__((naked)) void switch_context(uint32_t *prev_sp, uint32_t *next_sp);
 
 struct process *create_process(uint32_t pc);
+
+extern struct process *current_proc;
+extern struct process *idle_proc;
+void yield(void);
