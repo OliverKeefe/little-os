@@ -84,6 +84,7 @@ struct process {
     int pid;
     int state;
     vaddr_t sp;
+    uint32_t *page_table;
     uint8_t stack[8192];
 };
 
@@ -93,4 +94,43 @@ struct process *create_process(uint32_t pc);
 
 extern struct process *current_proc;
 extern struct process *idle_proc;
+
 void yield(void);
+
+#define SATP_SV32 (1u << 31)
+
+// Valid
+#define PAGE_V (1 << 0)
+
+// Readable
+#define PAGE_R (1 << 1)
+
+// Writable
+#define PAGE_W (1 << 2)
+
+// Executable
+#define PAGE_X (1 << 3)
+
+// User (accessible in User Mode).
+#define PAGE_U (1 << 4)
+
+extern int __kernel_base[];
+extern char __free_ram[], __free_ram_end[];
+
+paddr_t alloc_pages(uint32_t n);
+
+/**
+ * map_page takes the first-level page table, the virtual address, the physical
+ * address and the table flags. Then, ensures the first level page table exists,
+ * creates the second page table if required and then sets the second level page
+ * table entry to map the physical page.
+ *
+ * The physical address (paddr) is divided by PAGE_SIZE because the entry should
+ * contain the physical page number, not the physical address itself.
+ *
+ * @param table1
+ * @param vaddr
+ * @param paddr
+ * @param flags
+ */
+void map_page(uint32_t *table1, uint32_t vaddr, paddr_t paddr, uint32_t flags);
