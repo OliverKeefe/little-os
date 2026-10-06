@@ -39,7 +39,7 @@ void handle_trap(struct trap_frame *f) {
 
 
 
-extern char __free_ram[], __free_ram_end[];
+
 
 /*
  alloc_pages handles the allocation of memory to physical addresses.
