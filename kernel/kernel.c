@@ -171,8 +171,19 @@ void proc_b_entry(void) {
 struct process *idle_proc;
 struct process *current_proc;
 
-void user_entry(void) {
-    PANIC("not implemented yet");
+
+/**
+ * U-Mode
+ */
+__attribute__((naked)) void user_entry(void) {
+    __asm__ __volatile__(
+        "csrw sepc, %[sepc] \n"
+        "csrw sstatus, %[sstatus] \n"
+        "sret \n"
+        :
+        : [sepc] "r" (USER_BASE),
+          [sstatus] "r" (SSTATUS_SPIE)
+    );
 }
 
 void kernel_main(void) {
@@ -213,3 +224,4 @@ void boot(void) {
         : [stack_top] "r" (__stack_top) // Pass the stack top addr as %[stack_top].
     );
 }
+
