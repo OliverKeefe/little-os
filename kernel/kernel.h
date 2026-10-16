@@ -114,6 +114,12 @@ void yield(void);
 // User (accessible in User Mode).
 #define PAGE_U (1 << 4)
 
+/**
+ * The base virtual address of an app image. Must match the starting address defined
+ * in the `user.ld` linker script.
+ */
+#define USER_BASE 0x1000000
+
 extern int __kernel_base[];
 extern char __free_ram[], __free_ram_end[];
 
