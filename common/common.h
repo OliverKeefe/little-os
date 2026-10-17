@@ -67,4 +67,6 @@ int kvsnprintf(char *buffer, size_t buffer_size, const char *fmt, va_list vargs)
 
 void printf(const char *fmt, ...);
 
+#define SYS_PUTCHAR 1
+
 #endif //LITTLE_OS_COMMON_H
