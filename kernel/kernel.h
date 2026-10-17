@@ -146,7 +146,8 @@ paddr_t alloc_pages(uint32_t n);
  */
 void map_page(uint32_t *table1, uint32_t vaddr, paddr_t paddr, uint32_t flags);
 
-
 extern char _binary_shell_bin_start[], _binary_shell_bin_size[];
 
 void user_entry(void);
+
+void handle_syscall(struct trap_frame *f);
