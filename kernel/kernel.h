@@ -123,6 +123,8 @@ void yield(void);
 // Macro for switching to U-Mode.
 #define SSTATUS_SPIE (1 << 5)
 
+#define SCAUSE_ECALL 8
+
 extern int __kernel_base[];
 extern char __free_ram[], __free_ram_end[];
 
