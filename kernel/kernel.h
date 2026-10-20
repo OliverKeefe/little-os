@@ -71,6 +71,9 @@ struct sbiret {
 // Runnable processes.
 #define PROC_RUNNABLE 1
 
+// Exit procees.
+#define PROC_EXITED 2
+
 /*
  process defines a Process Control Block (PCB)
  which is a process object / entity.
