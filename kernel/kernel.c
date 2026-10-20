@@ -29,6 +29,11 @@ void putchar(char ch) {
     sbi_call(ch, 0, 0, 0, 0, 0, 0, 1);
 }
 
+long getchar(void) {
+    struct sbiret ret = sbi_call(0, 0, 0, 0, 0, 0, 0, 2);
+    return ret.error;
+}
+
 void handle_trap(struct trap_frame *f) {
     uint32_t scause = READ_CSR(scause);
     uint32_t stval = READ_CSR(stval);
