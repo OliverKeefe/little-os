@@ -2,5 +2,6 @@
 #include "../common/common.h"
 
 __attribute__((noreturn)) void exit(void);
-void putcha(char ch);
 void putchar(char ch);
+
+int getchar(void);
