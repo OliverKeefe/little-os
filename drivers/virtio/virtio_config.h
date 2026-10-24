@@ -1,4 +1,4 @@
-#ifdef VIRTIO_CONFIG_H
+#ifndef VIRTIO_CONFIG_H
 #define VIRTIO_CONFIG_H
 
 struct virtio_blk_config {
