@@ -7,3 +7,4 @@ add_executable(little_os
         kernel/kernel.c
         kernel/kernel.c
         common/common.c)
+        drivers/virtio/virtio.c
