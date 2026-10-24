@@ -52,4 +52,28 @@ struct virtio_blk_config {
     } zoned;
 } __attribute__((packed));
 
+#define VIRTIO_BLK_T_IN 0
+#define VIRTIO_BLK_T_OUT 1
+#define VIRTIO_BLK_T_FLUSH 4
+
+struct virtio_blk_outhdr {
+    uint32_t type;
+    uint32_t ioprio;
+    uint64_t sector;
+} __attribute__((packed));
+
+#define VIRTIO_BLK_S_OK 0
+#define VIRTIO_BLK_S_IOERR 1
+#define VIRTIO_BLK_S_UNSUPP 2
+
+#define SECTOR_SIZE 512
+
+struct virtio_blk_req {
+    uint32_t type;
+    uint32_t reserved;
+    uint64_t sector;
+    uint8_t  data[SECTOR_SIZE];
+    uint8_t  status;
+} __attribute__((packed));
+
 #endif // VIRTIO_BLK_H
