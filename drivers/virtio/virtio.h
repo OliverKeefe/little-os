@@ -8,11 +8,29 @@
 #include "virtio_mmio.h"
 #include "virtio_ring.h"
 #include "virtio_blk.h"
+#include "../../common/common.h"
 
 /*
  * Driver for virtio.
  * For reference see spec: https://docs.oasis-open.org/virtio/virtio/v1.3/csd01/virtio-v1.3-csd01.html
  */
+
+#define VIRTIO_REG_MAGIC           0x00
+#define VIRTIO_REG_VERSION         0x04
+#define VIRTIO_REG_DEVICE_ID       0x08
+#define VIRTIO_REG_DEVICE_STATUS   0x70
+#define VIRTIO_REG_PAGE_SIZE       0x28
+#define VIRTIO_REG_QUEUE_SEL       0x30
+#define VIRTIO_REG_QUEUE_NUM_MAX   0x34
+#define VIRTIO_REG_QUEUE_NUM       0x38
+#define VIRTIO_REG_QUEUE_PFN       0x40
+#define VIRTIO_REG_QUEUE_READY     0x44
+#define VIRTIO_REG_QUEUE_NOTIFY    0x50
+#define VIRTIO_REG_DEVICE_CONFIG   0x100
+
+#define VIRTIO_STATUS_ACK          1
+#define VIRTIO_STATUS_DRIVER_AVAIL 2
+#define VIRTIO_STATUS_DRIVER_OK    4
 
 
 struct virtio_blk {
