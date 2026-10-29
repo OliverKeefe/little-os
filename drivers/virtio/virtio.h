@@ -25,4 +25,17 @@ void virtio_blk_init(void);
 int virtio_blk_read(uint32_t sector, void *buf, uint32_t count);
 int virtio_blk_write(uint32_t sector, const void *buf, uint32_t count);
 
-#endif // VIRTIO_H
+
+// MMIO (Memory-Mapped I/O) Access Layer for the virtio device.
+
+// virtio_reg_read32 casts address to a volatile uint32_t* and dereferences it, returning the value.
+uint32_t virtio_reg_read32(unsigned offset);
+
+// virtio_reg_read32 casts address to a volatile uint64_t* and dereferences it, returning the value.
+uint64_t virtio_reg_read64(unsigned offset);
+
+// virtio_reg_read32 casts address to a volatile uint32_t* and dereferences it, storing the value.
+void virtio_reg_write32(unsigned offset, uint32_t value);
+
+// Reads the register at `offset`, OR the bits in `value`, then write back to `offset`.
+void virtio_reg_fetch_and_or32(unsigned offset, uint32_t value);
