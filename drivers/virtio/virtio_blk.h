@@ -76,4 +76,4 @@ struct virtio_blk_req {
     uint8_t  status;
 } __attribute__((packed));
 
-#endif // VIRTIO_BLK_H
+#define VIRTIO_BLK_PADDR 0x10001000

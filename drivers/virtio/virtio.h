@@ -1,7 +1,3 @@
-#pragma once
-#ifdef VIRTIO_H
-#define VIRTIO_H
-
 #include "virtio_types.h"
 #include "virtio_ids.h"
 #include "virtio_config.h"
