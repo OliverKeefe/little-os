@@ -1,4 +1,5 @@
 #include "kernel.h"
+#include "../drivers/virtio/virtio.h"
 
 __attribute__((naked)) void switch_context(uint32_t *prev_sp, uint32_t *next_sp) {
     __asm__ __volatile__(
